@@ -2,47 +2,26 @@
 using namespace std;
 
 #define ll long long
+#define nline '\n'
 
 int main(){
-    ll t;
-    cin >> t;
+    ll t;cin >> t;
     while(t--){
-        ll n;
-        cin >> n;
-        vector<int> v(n);
+        ll n;cin >> n;
+        ll v[n];
         for(int i = 0; i<n; i++)cin >> v[i];
-        ll ops = n-1;
-        ll x = 0;
-        ll i = 0;
-        ll j = 1;
-        if(v[i] > 0 && v[j] < 0){
-            x = x - v[j];
-            j++;
-            ops--;
+        ll post[n+1];
+        post[n] = 0;
+        post[n-1] = v[n-1];
+        for(int i = n-2; i>=0; i--){
+            post[i] = post[i+1] + v[i];
         }
-        if(n == 2){
-            if((0-v[0]) > (0+v[1])){
-                cout << 0-v[1] << '\n';
-            }
-            else{
-                cout << 0+v[0] << '\n';
-            }
-            continue;
+        ll ans = -post[1];
+        ll sum = v[0];
+        for(int i = 1; i<n; i++){
+            ans = max(ans, sum - post[i+1]);
+            sum = sum + abs(v[i]);
         }
-        while(ops--){
-            ll first = x + v[i];
-            ll second = x - v[j];
-            // cout << first << " " << second << '\n';
-            if(first > second || v[i] < v[j]){
-                i = j;
-                j++;
-                x = first;
-            }
-            else{
-                j++;
-                x = second;
-            }
-        }
-        cout << x << '\n';
+        cout << ans << nline;
     }
 }
