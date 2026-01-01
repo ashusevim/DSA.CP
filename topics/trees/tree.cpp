@@ -1,5 +1,4 @@
 #include<bits/stdc++.h>
-#include <queue>
 using namespace std;
 
 // Definition for a binary tree node
@@ -61,18 +60,31 @@ void postorder(Node* root){
 }
 
 //iterative way
-void levelorder(Node* root){
-	queue<Node*> qq;
-	qq.push(root);
-	while(!qq.empty()){
-		int size = qq.size();
-		for(int i = 0; i<size; i++){
-			Node* node = qq.front();
-			qq.pop();
-			cout << node->data << '\n';
-			if(node->left != nullptr)qq.push(node->left);
-			if(node->right != nullptr)qq.push(node->right);
-		}
+// void levelorder(Node* root){
+// 	queue<Node*> qq;
+// 	qq.push(root);
+// 	while(!qq.empty()){
+// 		int size = qq.size();
+// 		for(int i = 0; i<size; i++){
+// 			Node* node = qq.front();
+// 			qq.pop();
+// 			cout << node->data << '\n';
+// 			if(node->left != nullptr)qq.push(node->left);
+// 			if(node->right != nullptr)qq.push(node->right);
+// 		}
+// 	}
+// }
+
+// recursive way
+void levelorder(Node* root, int level){
+	if(root == nullptr)return;
+
+	if(level == 1){
+		cout << root->data << '\n';
+	}
+	else{
+		levelorder(root->left, level-1);
+		levelorder(root->right, level-1);
 	}
 }
 
@@ -89,7 +101,11 @@ int main() {
     // inorder traversal
     // inorder(root);
 
-    levelorder(root);
+    // levelorder(root);
+
+    for(int i = 1; i<=7; i++){
+   		levelorder(root, i);
+    }
 
     return 0;
 }
