@@ -11,43 +11,23 @@ int x, k; // limits
 
 int taken[1001];
 
-bool check(int level){
-	int timetaken = 0;
-	int itemtaken = 0;
-	for(int i = 0; i<level; i++){
-		if(taken[i]){
-			timetaken += t[i];
-			itemtaken += 1;
-		}
-	}
-	// take the current item
-	timetaken += t[level];
-	itemtaken++;
+int recur(int level, int time_taken, int item_taken){
+	// pruning
 
-	if(timetaken <= x && itemtaken <= k){
-		return 1;
-	}
-	else{
+	// base case
+	if(level == n){
 		return 0;
 	}
-}
 
-int recur(int level){
-	// base case
-	if(level == n)return 0;
+	// cache check
 
-	// compute
-	// look over choices
-	// choice 1: not take
-	int ans = recur(level+1);
-	// choice 2: take
-	// validate the choice
-	if(check(level)){
-		taken[level] = 1;
-		ans = max(ans, s[level]+recur(level+1));
-		taken[level] = 0;
+	// compute/transition
+	int ans = recur(level+1, time_taken, item_taken);
+	if(time_taken+t[level] <= x && item_taken+1 <= k){
+		ans = max(ans, s[level] + recur(level+1, time_taken+t[level], item_taken+1));
 	}
-	return ans;
+
+	// save/return
 }
 
 int main(){
