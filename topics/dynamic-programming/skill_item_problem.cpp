@@ -9,6 +9,8 @@ int t[1001];
 int s[1001];
 int x, k; // limits
 
+int dp[101][101][101];
+
 int recur(int level, int time_taken, int item_taken){
 	// pruning
 
@@ -18,6 +20,9 @@ int recur(int level, int time_taken, int item_taken){
 	}
 
 	// cache check
+	if(dp[level][time_taken][item_taken] != -1){
+		return dp[level][time_taken][item_taken];
+	}
 
 	// compute/transition
 	int ans = recur(level+1, time_taken, item_taken);
@@ -26,6 +31,7 @@ int recur(int level, int time_taken, int item_taken){
 	}
 
 	// save/return
+	return dp[level][time_taken][item_taken] = ans;
 }
 
 int main(){
@@ -34,5 +40,5 @@ int main(){
 		cin >> t[i] >> s[i];
 	}
 	cin >> x >> k;
-	cout << recur(0);
+	cout << recur(0, 0, 0);
 }
